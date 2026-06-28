@@ -1,0 +1,19 @@
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(2, 3); // RX = pin 2, TX = pin 3
+void setup() {
+Serial.begin(9600); // USB Serial Monitor (for debugging on PC)
+mySerial.begin(9600); // Software Serial link to Slave Arduino
+Serial.println("Master Ready");
+}
+void loop() {
+mySerial.println("Hello Slave, are you there?"); // TX: send to slave
+Serial.println("Master Sent: Hello Slave, are you there?");
+delay(1000);
+if (mySerial.available()) { // RX: check for reply
+String reply = mySerial.readStringUntil('\n');
+Serial.print("Master Received: ");
+Serial.println(reply);
+}
+delay(1000);
+}
+

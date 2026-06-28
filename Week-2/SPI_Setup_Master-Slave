@@ -1,0 +1,30 @@
+#include <SPI.h>
+
+const int SS_PIN = 10;
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(SS_PIN, OUTPUT);
+  digitalWrite(SS_PIN, HIGH);
+
+  SPI.begin();
+
+  Serial.println("SPI Master Started");
+}
+
+void loop() {
+
+  digitalWrite(SS_PIN, LOW);
+
+  byte received = SPI.transfer(0x55);
+
+  digitalWrite(SS_PIN, HIGH);
+
+  Serial.print("Sent: ");
+  Serial.print(0x55, HEX);
+  Serial.print("  Received: ");
+  Serial.println(received, HEX);
+
+  delay(1000);
+}

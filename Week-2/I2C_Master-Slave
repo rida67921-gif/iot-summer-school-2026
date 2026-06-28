@@ -1,0 +1,30 @@
+#include <Wire.h>
+
+void setup() {
+  Wire.begin();      // Join I2C bus as Master
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  // Send data to Slave
+  Wire.beginTransmission(8);   // Slave Address = 8
+  Wire.write("Hello Slave");
+  Wire.endTransmission();
+
+  delay(500);
+
+  // Request data from Slave
+  Wire.requestFrom(8, 12);
+
+  Serial.print("Slave Says: ");
+
+  while (Wire.available()) {
+    char c = Wire.read();
+    Serial.print(c);
+  }
+
+  Serial.println();
+
+  delay(1000);
+}

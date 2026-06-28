@@ -1,0 +1,45 @@
+int rowPins[4] = {5, 4, 3, 2};
+int colPins[4] = {13, 12, 11, 10};
+
+// Letter P
+byte pattern[4][4] = {
+  {1, 1, 1, 0},
+  {1, 0, 1, 0},
+  {1, 1, 1, 0},
+  {1, 0, 0, 0}
+};
+
+void setup() {
+  for (int i = 0; i < 4; i++) {
+    pinMode(rowPins[i], OUTPUT);
+    pinMode(colPins[i], OUTPUT);
+
+    digitalWrite(rowPins[i], LOW);
+    digitalWrite(colPins[i], HIGH);
+  }
+}
+
+void loop() {
+
+  for (int row = 0; row < 4; row++) {
+
+    // Turn all rows OFF
+    for (int r = 0; r < 4; r++) {
+      digitalWrite(rowPins[r], LOW);
+    }
+
+    // Set columns
+    for (int col = 0; col < 4; col++) {
+
+      if (pattern[row][col] == 1)
+        digitalWrite(colPins[col], LOW);
+      else
+        digitalWrite(colPins[col], HIGH);
+    }
+
+    // Enable current row
+    digitalWrite(rowPins[row], HIGH);
+
+    delay(2);
+  }
+}

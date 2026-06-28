@@ -1,0 +1,24 @@
+// Define pins
+const int ldrPin = A0;  // Analog pin connected to LDR
+const int ledPin = 13;  // Digital pin connected to LED
+
+void setup() {
+  // Initialize pins
+  pinMode(ldrPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  // Read the sensor value
+  int ldrValue = analogRead(ldrPin);
+
+  // Apply the logic
+  if (ldrValue < 300) {
+    digitalWrite(ledPin, HIGH); // Turn LED ON
+  } else {
+    digitalWrite(ledPin, LOW);  // Turn LED OFF
+  }
+  
+  // Short delay before repeating
+  delay(100);
+}

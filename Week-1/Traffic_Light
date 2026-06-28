@@ -1,0 +1,53 @@
+// Group the LED pins into an array: Red=8, Yellow=9, Green=10
+const int leds[] = {8, 9, 10}; 
+const int greenLED = 10;
+const int buttonPin = 2;
+
+unsigned long startTime;
+unsigned long reactionTime;
+
+void setup() {
+  // Setup all 3 LEDs using a quick loop
+  for (int i = 0; i < 3; i++) {
+    pinMode(leds[i], OUTPUT);
+  }
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  Serial.begin(9600);
+  randomSeed(analogRead(A0));
+  Serial.println("Wait for GREEN LED, then press the button!");
+}
+
+void loop() {
+  delay(2000);
+
+  // Random LED distraction sequence (8 times)
+  for (int i = 0; i < 8; i++) {
+    int randomPin = leds[random(0, 3)]; // Randomly pick pin 8, 9, or 10
+    
+    digitalWrite(randomPin, HIGH);
+    delay(random(200, 1000));
+    digitalWrite(randomPin, LOW);
+    delay(random(100, 500));
+  }
+
+  // Reaction signal - GO!
+  digitalWrite(greenLED, HIGH);
+  startTime = millis();
+
+  // Wait for button press
+  while (digitalRead(buttonPin) == HIGH) {
+    // Doing nothing, just waiting
+  }
+
+  // Calculate and print
+  reactionTime = millis() - startTime;
+  digitalWrite(greenLED, LOW);
+
+  Serial.print("Reaction Time: ");
+  Serial.print(reactionTime);
+  Serial.println(" ms");
+  Serial.println("-------------------");
+
+  delay(3000);
+}
